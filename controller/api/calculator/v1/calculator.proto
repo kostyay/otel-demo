@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package calculator.v1;
+
+option go_package = "github.com/kostyay/otel-demo/controller/api/calculator/v1;calculatorv1";
+
+service CalculatorService {
+  rpc Calculate(CalculateRequest) returns (CalculateResponse) {}
+  rpc List(ListRequest) returns (ListResponse) {}
+}
+
+message CalculateRequest {
+  string expression = 1;
+  string owner = 2;
+}
+
+message CalculateResponse {
+  uint32 id = 1;
+}
+
+message ListRequest {}
+
+message ListResponse {
+  repeated Calculation calculations = 1;
+}
+
+message Calculation {
+  uint32 id = 1;
+  string owner = 2;
+  string expression = 3;
+  double result = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  google.protobuf.Timestamp completed_at = 7;
+}
