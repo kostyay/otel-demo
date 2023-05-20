@@ -799,6 +799,8 @@ github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+o
 github.com/klauspost/asmfmt v1.3.2/go.mod h1:AG8TuvYojzulgDAMCnYn50l/5QV3Bs/tp6j0HLHbNSE=
 github.com/klauspost/compress v1.15.9/go.mod h1:PhcZ0MbTNciWF3rruxRgKxI5NkcHHrHUDtV4Yw2GlzU=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
+github.com/kostyay/otel-demo/common v0.0.0-20230520204838-e0452cde89d6 h1:LDmOGP7kFFn31SKY6hW7xS8v0c2L5HEtpLtLx511SMU=
+github.com/kostyay/otel-demo/common v0.0.0-20230520204838-e0452cde89d6/go.mod h1:i/aR0BM4/JxUxEncJ/PBD5h+umghrLBqntkB9o31X68=
 github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089 h1:CRQxtf0IrWOQQSqpdbeTxURMK/60V1rzNx4RLDzAjAU=
 github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089/go.mod h1:b0dVBL14snzahcA4bBxG8qKEBXJK3Vf8JhxU7+Bxp+Q=
 github.com/kostyay/zapdriver v1.3.2-0.20210819111715-cba91ee57ad7 h1:nfBzACWJ6xQ9dGkFN9eTSJ/T2tBECoPOtZQer3uCSg8=

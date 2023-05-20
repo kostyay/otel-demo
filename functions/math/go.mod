@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/GoogleCloudPlatform/functions-framework-go v1.7.3
 	github.com/cloudevents/sdk-go/v2 v2.14.0
-	github.com/kostyay/otel-demo/common v0.0.0-20230520202305-79c72bc47ac3
+	github.com/kostyay/otel-demo/common v0.0.0-20230520204838-e0452cde89d6
 	github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089
 )
 
@@ -46,5 +46,3 @@ require (
 	google.golang.org/grpc v1.54.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 )
-
-replace github.com/kostyay/otel-demo/common => ../../common
