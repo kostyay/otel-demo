@@ -58,8 +58,16 @@ func (l *Logger) Info(args ...interface{}) {
 	l.logger.Info(args...)
 }
 
+func (l *Logger) Infof(format string, args ...interface{}) {
+	l.logger.Infof(format, args...)
+}
+
 func (l *Logger) Error(args ...interface{}) {
 	l.logger.Error(args...)
+}
+
+func (l *Logger) Fatal(args ...interface{}) {
+	l.logger.Fatal(args...)
 }
 
 func WithContext(ctx context.Context) *Logger {
@@ -76,6 +84,10 @@ func Info(args ...interface{}) {
 
 func Fatalf(format string, args ...interface{}) {
 	globalLog.logger.Fatalf(format, args...)
+}
+
+func Fatal(args ...interface{}) {
+	globalLog.logger.Fatal(args...)
 }
 
 func WithError(err error) *Logger {

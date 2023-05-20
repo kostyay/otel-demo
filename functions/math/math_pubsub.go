@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kostyay/otel-demo/common/log"
+	"github.com/kostyay/otel-demo/common/otel"
+	"os"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
@@ -14,6 +16,15 @@ import (
 )
 
 func init() {
+	_, err := otel.InitTracing(context.Background(), otel.Config{
+		ProjectID:      os.Getenv("GOOGLE_CLOUD_PROJECT"),
+		ServiceName:    "math",
+		ServiceVersion: "0.0.1",
+	})
+	if err != nil {
+		log.WithError(err).Fatal("Failed to initialize tracing")
+		os.Exit(1)
+	}
 	functions.CloudEvent("calculateExpression", calculateExpression)
 }
 
@@ -41,12 +52,10 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	var calculation pb.Calculation
 
 	err := json.Unmarshal(msg.Message.Data, &calculation)
-	log.WithContext(ctx).Info("Calculation: ", calculation)
-
-	name := string(msg.Message.Data) // Automatically decoded from base64.
-	if name == "" {
-		name = "World"
+	if err != nil {
+		return fmt.Errorf("json.Unmarshal: %v", err)
 	}
-	log.Printf("Hello, %s!", name)
+	log.WithContext(ctx).Infof("Calculation: %-v", calculation)
+
 	return nil
 }

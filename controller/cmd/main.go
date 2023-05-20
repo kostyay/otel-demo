@@ -3,17 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	texporter "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
-	"github.com/kostyay/otel-demo/controller/internal/math"
-	"go.opentelemetry.io/contrib/detectors/gcp"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/sdk/resource"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
-
+	"github.com/kostyay/otel-demo/common/log"
 	"github.com/kostyay/otel-demo/controller/internal/config"
 	"github.com/kostyay/otel-demo/controller/internal/handler"
-	"github.com/kostyay/otel-demo/controller/internal/log"
+	"github.com/kostyay/otel-demo/controller/internal/math"
 	"github.com/kostyay/otel-demo/controller/internal/storage"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
@@ -47,44 +40,6 @@ func run() error {
 		// avoid x/net/http2 by using http.ListenAndServeTLS.
 		h2c.NewHandler(mux, &http2.Server{}),
 	)
-}
-
-func initTrace() error {
-	ctx := context.Background()
-	projectID := os.Getenv("GOOGLE_CLOUD_PROJECT")
-	exporter, err := texporter.New(texporter.WithProjectID(projectID))
-	if err != nil {
-		return fmt.Errorf("failed to create trace exporter: %w", err)
-	}
-
-	// Identify your application using resource detection
-	res, err := resource.New(ctx,
-		// Use the GCP resource detector to detect information about the GCP platform
-		resource.WithDetectors(gcp.NewDetector()),
-		// Keep the default detectors
-		resource.WithTelemetrySDK(),
-		// Add your own custom attributes to identify your application
-		resource.WithAttributes(
-			semconv.ServiceNameKey.String(config.ServiceName),
-		),
-	)
-	if err != nil {
-		return err
-	}
-
-	// Create trace provider with the exporter.
-	//
-	// By default it uses AlwaysSample() which samples all traces.
-	// In a production environment or high QPS setup please use
-	// probabilistic sampling.
-	// Example:
-	//   tp := sdktrace.NewTracerProvider(sdktrace.WithSampler(sdktrace.TraceIDRatioBased(0.0001)), ...)
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithBatcher(exporter),
-		sdktrace.WithResource(res),
-	)
-	otel.SetTracerProvider(tp)
-	return nil
 }
 
 func main() {
