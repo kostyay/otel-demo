@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/kostyay/otel-demo/common/otel"
 	otelpubsub "github.com/kostyay/otel-demo/common/otel/pubsub"
 	pb "github.com/kostyay/otel-demo/controller/api/calculator/v1"
 	"github.com/kostyay/otel-demo/controller/internal/config"
@@ -63,9 +64,8 @@ func (h *handler) Calculate(ctx context.Context, calculation *pb.Calculation) er
 	ctx, span := otelpubsub.BeforePublishMessage(ctx, otel.Tracer(), h.requestTopic.String(), msg)
 	defer span.End()
 
-	result := h.requestTopic.Publish(ctx)
-
-	_, err = result.Get(ctx)
+	result, err := h.requestTopic.Publish(ctx, msg).Get(ctx)
+	otelpubsub.AfterPublishMessage(span, result, err)
 	if err != nil {
 		return fmt.Errorf("unable to publish message: %w", err)
 	}
