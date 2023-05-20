@@ -9,7 +9,6 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
-	"go.opentelemetry.io/otel/trace"
 )
 
 type Config struct {
@@ -18,7 +17,7 @@ type Config struct {
 	ServiceVersion string
 }
 
-func InitTracing(ctx context.Context, cfg Config) (trace.TracerProvider, error) {
+func InitTracing(ctx context.Context, cfg Config) (*sdktrace.TracerProvider, error) {
 	exporter, err := texporter.New(texporter.WithProjectID(cfg.ProjectID))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create trace exporter: %w", err)

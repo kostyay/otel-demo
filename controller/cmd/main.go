@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/kostyay/otel-demo/common/log"
+	"github.com/kostyay/otel-demo/common/otel"
+	"github.com/kostyay/otel-demo/common/version"
 	"github.com/kostyay/otel-demo/controller/internal/config"
 	"github.com/kostyay/otel-demo/controller/internal/handler"
 	"github.com/kostyay/otel-demo/controller/internal/math"
@@ -14,13 +16,7 @@ import (
 	"os"
 )
 
-func run() error {
-	cfg, err := config.Parse()
-	if err != nil {
-		log.WithError(err).Error("failed to parse config")
-		return err
-	}
-
+func run(cfg *config.Options) error {
 	db, err := storage.New(cfg)
 	if err != nil {
 		return fmt.Errorf("unable to initialize storage: %w", err)
@@ -43,16 +39,34 @@ func run() error {
 }
 
 func main() {
-	log.Info("Starting server...")
+	ctx := context.Background()
 
-	if err := initTrace(); err != nil {
+	cfg, err := config.Parse()
+	if err != nil {
+		log.WithError(err).Error("failed to parse config")
+		os.Exit(1)
+	}
+
+	log.Info("Starting server...")
+	tp, err := otel.InitTracing(ctx, otel.Config{
+		ProjectID:      cfg.GoogleCloudProject,
+		ServiceName:    version.ServiceName,
+		ServiceVersion: version.Version,
+	})
+	if err != nil {
 		log.WithError(err).Error("failed to init trace")
 		os.Exit(1)
 	}
 
+	defer func() {
+		if err := tp.Shutdown(ctx); err != nil {
+			log.WithError(err).Error("failed to shutdown trace")
+		}
+	}()
+
 	log.Info("Trace initialized")
 
-	if err := run(); err != nil {
+	if err := run(cfg); err != nil {
 		log.WithError(err).Error("failed to run server")
 		os.Exit(1)
 	}

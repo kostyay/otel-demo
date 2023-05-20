@@ -16,7 +16,7 @@ push:
 	docker push ${REPO_BASE}/controller:${TAG}
 
 .PHONY: deploy
-deploy:
+deploy: build container push
 	gcloud run deploy controller \
     --image=us-central1-docker.pkg.dev/otel-demo-387216/otel-demo/controller:${TAG} \
     --set-cloudsql-instances=otel-demo-387216:us-central1:otel-demo \
