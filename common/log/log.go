@@ -2,7 +2,7 @@ package log
 
 import (
 	"context"
-	"github.com/kostyay/otel-demo/controller/internal/config"
+	"github.com/kostyay/otel-demo/common/version"
 	"github.com/kostyay/zapdriver"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
@@ -28,8 +28,8 @@ func init() {
 	l, err := zapconf.Build(
 		zapdriver.WrapCore(
 			zapdriver.ReportAllErrors(true),
-			zapdriver.ServiceName(config.ServiceName),
-			zapdriver.ServiceVersion(config.ServiceVersion),
+			zapdriver.ServiceName(version.ServiceName),
+			zapdriver.ServiceVersion(version.Version),
 		),
 		zap.AddCallerSkip(1),
 	)

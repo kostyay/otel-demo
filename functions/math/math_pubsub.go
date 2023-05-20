@@ -3,8 +3,9 @@ package math
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"log"
+	"github.com/kostyay/otel-demo/common/log"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
@@ -38,6 +39,9 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	}
 
 	var calculation pb.Calculation
+
+	err := json.Unmarshal(msg.Message.Data, &calculation)
+	log.WithContext(ctx).Info("Calculation: ", calculation)
 
 	name := string(msg.Message.Data) // Automatically decoded from base64.
 	if name == "" {

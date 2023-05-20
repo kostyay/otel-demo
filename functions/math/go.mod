@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/GoogleCloudPlatform/functions-framework-go v1.7.3
 	github.com/cloudevents/sdk-go/v2 v2.14.0
+	github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089
 )
 
 require (
@@ -15,4 +16,9 @@ require (
 	go.uber.org/atomic v1.4.0 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.10.0 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
+)
+
+replace (
+	github.com/kostyay/otel-demo/common => ../../common
 )
