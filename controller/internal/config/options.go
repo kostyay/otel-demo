@@ -9,7 +9,10 @@ type Options struct {
 		Name                   string `env:"DB_NAME" envDefault:"postgres"`
 		InstanceConnectionName string `env:"INSTANCE_CONNECTION_NAME"`
 	}
-	ListenAddr string `env:"LISTEN_ADDR" envDefault:"127.0.0.1:8080"`
+	MathRequestTopic       string `env:"MATH_REQUEST_TOPIC,required"`
+	MathResultSubscription string `env:"MATH_RESULT_SUBSCRIPTION,required"`
+	GoogleCloudProject     string `env:"GOOGLE_CLOUD_PROJECT,required"`
+	ListenAddr             string `env:"LISTEN_ADDR" envDefault:"0.0.0.0:8080"`
 }
 
 func Parse() (*Options, error) {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	texporter "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
+	"github.com/kostyay/otel-demo/controller/internal/math"
 	"go.opentelemetry.io/contrib/detectors/gcp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/sdk/resource"
@@ -31,8 +32,11 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("unable to initialize storage: %w", err)
 	}
+	log.Info("storage initialized")
 
-	controller := handler.New(db)
+	m, err := math.New(context.Background(), cfg, db)
+
+	controller := handler.New(db, m)
 	mux := http.NewServeMux()
 	// The generated constructors return a path and a plain net/http
 	// handler.

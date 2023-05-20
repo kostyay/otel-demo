@@ -16,9 +16,10 @@ type storage struct {
 }
 
 func New(cfg *config.Options) (*storage, error) {
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable", cfg.DB.InstanceConnectionName, cfg.DB.User, cfg.DB.Name, cfg.DB.Password)
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DriverName: "cloudsqlpostgres",
-		DSN:        fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable", cfg.DB.InstanceConnectionName, cfg.DB.User, cfg.DB.Name, cfg.DB.Password),
+		DSN:        dsn,
 	}))
 	if err != nil {
 		return nil, fmt.Errorf("unable to open database: %w", err)
