@@ -10,6 +10,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
+	"go.opentelemetry.io/otel/trace"
 )
 
 type Config struct {
@@ -48,4 +49,8 @@ func InitTracing(ctx context.Context, cfg Config) (*sdktrace.TracerProvider, err
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 
 	return tp, nil
+}
+
+func Tracer() trace.Tracer {
+	return otel.Tracer("torqio.dev/")
 }

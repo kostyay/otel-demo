@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	otelpubsub "github.com/kostyay/otel-demo/common/otel/pubsub"
 	pb "github.com/kostyay/otel-demo/controller/api/calculator/v1"
 	"github.com/kostyay/otel-demo/controller/internal/config"
 )
@@ -55,9 +56,14 @@ func (h *handler) Calculate(ctx context.Context, calculation *pb.Calculation) er
 		return fmt.Errorf("unable to marshal calculation: %w", err)
 	}
 
-	result := h.requestTopic.Publish(ctx, &pubsub.Message{
+	msg := &pubsub.Message{
 		Data: expression,
-	})
+	}
+	// Create a new span
+	ctx, span := otelpubsub.BeforePublishMessage(ctx, otel.Tracer(), h.requestTopic.String(), msg)
+	defer span.End()
+
+	result := h.requestTopic.Publish(ctx)
 
 	_, err = result.Get(ctx)
 	if err != nil {
