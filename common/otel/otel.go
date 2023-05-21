@@ -52,5 +52,5 @@ func InitTracing(ctx context.Context, cfg Config) (*sdktrace.TracerProvider, err
 }
 
 func Tracer() trace.Tracer {
-	return otel.Tracer("torqio.dev/")
+	return otel.Tracer("otel-demo")
 }

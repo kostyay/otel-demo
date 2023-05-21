@@ -3,9 +3,10 @@ module github.com/kostyay/otel-demo/functions/math
 go 1.20
 
 require (
+	cloud.google.com/go/pubsub v1.30.0
 	github.com/GoogleCloudPlatform/functions-framework-go v1.7.3
 	github.com/cloudevents/sdk-go/v2 v2.14.0
-	github.com/kostyay/otel-demo/common v0.0.0-20230520204838-e0452cde89d6
+	github.com/kostyay/otel-demo/common v0.0.0-20230521194412-67fb46bef23e
 	github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089
 	github.com/maja42/goval v1.3.1
 	go.opentelemetry.io/otel v1.15.1
@@ -13,8 +14,10 @@ require (
 )
 
 require (
+	cloud.google.com/go v0.110.0 // indirect
 	cloud.google.com/go/compute v1.19.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
+	cloud.google.com/go/iam v0.13.0 // indirect
 	cloud.google.com/go/trace v1.9.0 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp v1.13.1 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.13.1 // indirect
@@ -39,6 +42,7 @@ require (
 	go.uber.org/zap v1.10.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/oauth2 v0.6.0 // indirect
+	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
 	google.golang.org/api v0.114.0 // indirect

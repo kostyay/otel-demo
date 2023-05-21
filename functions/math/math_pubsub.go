@@ -2,6 +2,7 @@
 package math
 
 import (
+	"cloud.google.com/go/pubsub"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -22,9 +23,15 @@ import (
 	pb "github.com/kostyay/otel-demo/controller/api/calculator/v1"
 )
 
+const (
+	resultTopic = "math-result-topic"
+)
+
+var googleCloudProject = os.Getenv("GOOGLE_CLOUD_PROJECT")
+
 func init() {
 	_, err := common_otel.InitTracing(context.Background(), common_otel.Config{
-		ProjectID:      os.Getenv("GOOGLE_CLOUD_PROJECT"),
+		ProjectID:      googleCloudProject,
 		ServiceName:    "math",
 		ServiceVersion: "0.0.1",
 	})
@@ -110,6 +117,47 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	}
 
 	logger.Infof("Result: %f", result)
+	//
+	if intResult, ok := result.(int); ok {
+		calculation.Result = float64(intResult)
+	} else if floatResult, ok := result.(float64); ok {
+		calculation.Result = floatResult
+	} else {
+		calculation.Result = 0
+	}
+
+	err = sendResult(ctx, &calculation)
+	if err != nil {
+		logger.WithError(err).Error("Failed to send result")
+		return err
+	}
+
+	span.AddEvent("result sent")
 
 	return nil
+}
+
+func sendResult(ctx context.Context, calc *pb.Calculation) error {
+	client, err := pubsub.NewClient(ctx, googleCloudProject)
+	if err != nil {
+		return fmt.Errorf("unable to create pubsub client: %w", err)
+	}
+	defer client.Close()
+
+	topic := client.Topic(resultTopic)
+
+	respJson, err := json.Marshal(calc)
+	if err != nil {
+		return fmt.Errorf("unable to marshal calculation: %w", err)
+	}
+
+	_, err = topic.Publish(ctx, &pubsub.Message{
+		Data: respJson,
+	}).Get(ctx)
+	if err != nil {
+		return fmt.Errorf("unable to publish message: %w", err)
+	}
+
+	return nil
+
 }
