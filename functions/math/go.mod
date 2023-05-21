@@ -7,6 +7,9 @@ require (
 	github.com/cloudevents/sdk-go/v2 v2.14.0
 	github.com/kostyay/otel-demo/common v0.0.0-20230520204838-e0452cde89d6
 	github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089
+	github.com/maja42/goval v1.3.1
+	go.opentelemetry.io/otel v1.15.1
+	go.opentelemetry.io/otel/trace v1.15.1
 )
 
 require (
@@ -30,9 +33,7 @@ require (
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/detectors/gcp v1.16.1 // indirect
-	go.opentelemetry.io/otel v1.15.1 // indirect
 	go.opentelemetry.io/otel/sdk v1.15.1 // indirect
-	go.opentelemetry.io/otel/trace v1.15.1 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.10.0 // indirect

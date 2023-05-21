@@ -70,6 +70,10 @@ func (l *Logger) Fatal(args ...interface{}) {
 	l.logger.Fatal(args...)
 }
 
+func (l *Logger) WithError(err error) *Logger {
+	return &Logger{logger: l.logger.With(errorKey, err.Error())}
+}
+
 func WithContext(ctx context.Context) *Logger {
 	return globalLog.WithContext(ctx)
 }
