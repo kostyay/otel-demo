@@ -51,11 +51,12 @@ func New(ctx context.Context, cfg *config.Options, storage Storage) (*handler, e
 		return nil, fmt.Errorf("unable to check response subscription existence: %w", err)
 	}
 
-	err = result.responseSub.Receive(ctx, otelpubsub.WrapPubSubHandlerWithTelemetry(otelcommon.Tracer(), cfg.MathResultSubscription, result.handleMathResult))
-	if err != nil {
-		requestClient.Close()
-		return nil, fmt.Errorf("unable to start receiving messages: %w", err)
-	}
+	go func() {
+		err := result.responseSub.Receive(ctx, otelpubsub.WrapPubSubHandlerWithTelemetry(otelcommon.Tracer(), cfg.MathResultSubscription, result.handleMathResult))
+		if err != nil {
+			log.WithError(err).Error("unable to receive pubsub messages")
+		}
+	}()
 
 	return result, nil
 }

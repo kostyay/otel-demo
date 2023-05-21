@@ -16,14 +16,19 @@ import (
 	"os"
 )
 
-func run(cfg *config.Options) error {
+func run(ctx context.Context, cfg *config.Options) error {
 	db, err := storage.New(cfg)
 	if err != nil {
 		return fmt.Errorf("unable to initialize storage: %w", err)
 	}
 	log.Info("storage initialized")
 
-	m, err := math.New(context.Background(), cfg, db)
+	m, err := math.New(ctx, cfg, db)
+	if err != nil {
+		return fmt.Errorf("unable to initialize math agent: %w", err)
+	}
+
+	log.Info("math agent initialized")
 
 	controller := handler.New(db, m)
 	mux := http.NewServeMux()
@@ -66,7 +71,7 @@ func main() {
 
 	log.Info("Trace initialized")
 
-	if err := run(cfg); err != nil {
+	if err := run(ctx, cfg); err != nil {
 		log.WithError(err).Error("failed to run server")
 		os.Exit(1)
 	}

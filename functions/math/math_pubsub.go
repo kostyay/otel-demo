@@ -1,4 +1,3 @@
-// Package helloworld provides a set of Cloud Functions samples.
 package math
 
 import (
@@ -7,7 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kostyay/otel-demo/common/log"
-	common_otel "github.com/kostyay/otel-demo/common/otel"
+	otelcommon "github.com/kostyay/otel-demo/common/otel"
+	otelpubsub "github.com/kostyay/otel-demo/common/otel/pubsub"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 
@@ -30,7 +30,7 @@ const (
 var googleCloudProject = os.Getenv("GOOGLE_CLOUD_PROJECT")
 
 func init() {
-	_, err := common_otel.InitTracing(context.Background(), common_otel.Config{
+	_, err := otelcommon.InitTracing(context.Background(), otelcommon.Config{
 		ProjectID:      googleCloudProject,
 		ServiceName:    "math",
 		ServiceVersion: "0.0.1",
@@ -87,7 +87,7 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 		return fmt.Errorf("event.DataAs: %v", err)
 	}
 
-	ctx, span := spanFromPubsubMessage(ctx, common_otel.Tracer(), "math-topic", msg.Message)
+	ctx, span := spanFromPubsubMessage(ctx, otelcommon.Tracer(), "math-topic", msg.Message)
 	defer func() {
 		if err != nil {
 			span.RecordError(err)
@@ -145,15 +145,26 @@ func sendResult(ctx context.Context, calc *pb.Calculation) error {
 	defer client.Close()
 
 	topic := client.Topic(resultTopic)
+	exists, err := topic.Exists(ctx)
+	if err != nil || !exists {
+		return fmt.Errorf("unable to get topic: %w", err)
+	}
 
 	respJson, err := json.Marshal(calc)
 	if err != nil {
 		return fmt.Errorf("unable to marshal calculation: %w", err)
 	}
 
-	_, err = topic.Publish(ctx, &pubsub.Message{
+	msg := &pubsub.Message{
 		Data: respJson,
-	}).Get(ctx)
+	}
+
+	// Create a new span
+	ctx, span := otelpubsub.BeforePublishMessage(ctx, otelcommon.Tracer(), resultTopic, msg)
+	defer span.End()
+
+	result, err := topic.Publish(ctx, msg).Get(ctx)
+	otelpubsub.AfterPublishMessage(span, result, err)
 	if err != nil {
 		return fmt.Errorf("unable to publish message: %w", err)
 	}
