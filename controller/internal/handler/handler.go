@@ -2,13 +2,13 @@ package handler
 
 import (
 	context "context"
+	"net/http"
+
 	connect_go "github.com/bufbuild/connect-go"
 	otelconnect "github.com/bufbuild/connect-opentelemetry-go"
 	pb "github.com/kostyay/otel-demo/controller/api/calculator/v1"
 	"github.com/kostyay/otel-demo/controller/api/calculator/v1/calculatorv1connect"
 	"github.com/kostyay/otel-demo/controller/internal/domain"
-	"google.golang.org/protobuf/types/known/timestamppb"
-	"net/http"
 )
 
 type Storage interface {
@@ -58,21 +58,7 @@ func (c *calculator) List(context.Context, *connect_go.Request[pb.ListRequest]) 
 
 	var calculations []*pb.Calculation
 	for _, result := range results {
-		calculation := &pb.Calculation{
-			Id:         uint32(result.ID),
-			Owner:      result.Owner,
-			Expression: result.Expression,
-			CreatedAt:  timestamppb.New(result.CreatedAt),
-			UpdatedAt:  timestamppb.New(result.UpdatedAt),
-		}
-		if result.Result != nil {
-			calculation.Result = *result.Result
-		}
-		if result.CompletedAt != nil {
-			calculation.CompletedAt = timestamppb.New(*result.CompletedAt)
-		}
-
-		calculations = append(calculations, calculation)
+		calculations = append(calculations, result.Proto())
 	}
 
 	response := connect_go.NewResponse(&pb.ListResponse{
@@ -82,6 +68,22 @@ func (c *calculator) List(context.Context, *connect_go.Request[pb.ListRequest]) 
 	return response, nil
 }
 
+func (c *calculator) Get(ctx context.Context, req *connect_go.Request[pb.GetRequest]) (*connect_go.Response[pb.GetResponse], error) {
+	res, err := c.db.GetCalculation(ctx, uint(req.Msg.GetId()))
+	if err != nil {
+		return nil, err
+	}
+
+	response := connect_go.NewResponse(&pb.GetResponse{
+		Calculation: res.Proto(),
+	})
+
+	return response, nil
+}
+
+func (c *calculator) Cleanup(ctx context.Context, req *connect_go.Request[pb.CleanupRequest]) (*connect_go.Response[pb.CleanupResponse], error) {
+	return nil, nil
+}
 func New(s Storage, m Math) *calculator {
 	return &calculator{db: s, math: m}
 }

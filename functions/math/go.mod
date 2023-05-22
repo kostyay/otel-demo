@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/pubsub v1.30.0
 	github.com/GoogleCloudPlatform/functions-framework-go v1.7.3
 	github.com/cloudevents/sdk-go/v2 v2.14.0
-	github.com/kostyay/otel-demo/common v0.0.0-20230521194412-67fb46bef23e
+	github.com/kostyay/otel-demo/common v0.0.0-20230521210817-9db6fe02f542
 	github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089
 	github.com/maja42/goval v1.3.1
 	go.opentelemetry.io/otel v1.15.1

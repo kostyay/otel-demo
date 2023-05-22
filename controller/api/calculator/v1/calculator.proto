@@ -9,7 +9,20 @@ option go_package = "github.com/kostyay/otel-demo/controller/api/calculator/v1;c
 service CalculatorService {
   rpc Calculate(CalculateRequest) returns (CalculateResponse) {}
   rpc List(ListRequest) returns (ListResponse) {}
+  rpc Get(GetRequest) returns (GetResponse) {}
+  rpc Cleanup(CleanupRequest) returns (CleanupResponse) {}
 }
+
+message GetRequest {
+  uint32 id = 1;
+}
+
+message GetResponse {
+  Calculation calculation = 1;
+}
+
+message CleanupRequest {}
+message CleanupResponse {}
 
 message CalculateRequest {
   string expression = 1;

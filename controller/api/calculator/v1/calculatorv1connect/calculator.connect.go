@@ -7,10 +7,11 @@ package calculatorv1connect
 import (
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
-	v1 "github.com/kostyay/otel-demo/controller/api/calculator/v1"
 	http "net/http"
 	strings "strings"
+
+	connect_go "github.com/bufbuild/connect-go"
+	v1 "github.com/kostyay/otel-demo/controller/api/calculator/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -38,12 +39,19 @@ const (
 	CalculatorServiceCalculateProcedure = "/calculator.v1.CalculatorService/Calculate"
 	// CalculatorServiceListProcedure is the fully-qualified name of the CalculatorService's List RPC.
 	CalculatorServiceListProcedure = "/calculator.v1.CalculatorService/List"
+	// CalculatorServiceGetProcedure is the fully-qualified name of the CalculatorService's Get RPC.
+	CalculatorServiceGetProcedure = "/calculator.v1.CalculatorService/Get"
+	// CalculatorServiceCleanupProcedure is the fully-qualified name of the CalculatorService's Cleanup
+	// RPC.
+	CalculatorServiceCleanupProcedure = "/calculator.v1.CalculatorService/Cleanup"
 )
 
 // CalculatorServiceClient is a client for the calculator.v1.CalculatorService service.
 type CalculatorServiceClient interface {
 	Calculate(context.Context, *connect_go.Request[v1.CalculateRequest]) (*connect_go.Response[v1.CalculateResponse], error)
 	List(context.Context, *connect_go.Request[v1.ListRequest]) (*connect_go.Response[v1.ListResponse], error)
+	Get(context.Context, *connect_go.Request[v1.GetRequest]) (*connect_go.Response[v1.GetResponse], error)
+	Cleanup(context.Context, *connect_go.Request[v1.CleanupRequest]) (*connect_go.Response[v1.CleanupResponse], error)
 }
 
 // NewCalculatorServiceClient constructs a client for the calculator.v1.CalculatorService service.
@@ -66,6 +74,16 @@ func NewCalculatorServiceClient(httpClient connect_go.HTTPClient, baseURL string
 			baseURL+CalculatorServiceListProcedure,
 			opts...,
 		),
+		get: connect_go.NewClient[v1.GetRequest, v1.GetResponse](
+			httpClient,
+			baseURL+CalculatorServiceGetProcedure,
+			opts...,
+		),
+		cleanup: connect_go.NewClient[v1.CleanupRequest, v1.CleanupResponse](
+			httpClient,
+			baseURL+CalculatorServiceCleanupProcedure,
+			opts...,
+		),
 	}
 }
 
@@ -73,6 +91,8 @@ func NewCalculatorServiceClient(httpClient connect_go.HTTPClient, baseURL string
 type calculatorServiceClient struct {
 	calculate *connect_go.Client[v1.CalculateRequest, v1.CalculateResponse]
 	list      *connect_go.Client[v1.ListRequest, v1.ListResponse]
+	get       *connect_go.Client[v1.GetRequest, v1.GetResponse]
+	cleanup   *connect_go.Client[v1.CleanupRequest, v1.CleanupResponse]
 }
 
 // Calculate calls calculator.v1.CalculatorService.Calculate.
@@ -85,10 +105,22 @@ func (c *calculatorServiceClient) List(ctx context.Context, req *connect_go.Requ
 	return c.list.CallUnary(ctx, req)
 }
 
+// Get calls calculator.v1.CalculatorService.Get.
+func (c *calculatorServiceClient) Get(ctx context.Context, req *connect_go.Request[v1.GetRequest]) (*connect_go.Response[v1.GetResponse], error) {
+	return c.get.CallUnary(ctx, req)
+}
+
+// Cleanup calls calculator.v1.CalculatorService.Cleanup.
+func (c *calculatorServiceClient) Cleanup(ctx context.Context, req *connect_go.Request[v1.CleanupRequest]) (*connect_go.Response[v1.CleanupResponse], error) {
+	return c.cleanup.CallUnary(ctx, req)
+}
+
 // CalculatorServiceHandler is an implementation of the calculator.v1.CalculatorService service.
 type CalculatorServiceHandler interface {
 	Calculate(context.Context, *connect_go.Request[v1.CalculateRequest]) (*connect_go.Response[v1.CalculateResponse], error)
 	List(context.Context, *connect_go.Request[v1.ListRequest]) (*connect_go.Response[v1.ListResponse], error)
+	Get(context.Context, *connect_go.Request[v1.GetRequest]) (*connect_go.Response[v1.GetResponse], error)
+	Cleanup(context.Context, *connect_go.Request[v1.CleanupRequest]) (*connect_go.Response[v1.CleanupResponse], error)
 }
 
 // NewCalculatorServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -108,6 +140,16 @@ func NewCalculatorServiceHandler(svc CalculatorServiceHandler, opts ...connect_g
 		svc.List,
 		opts...,
 	))
+	mux.Handle(CalculatorServiceGetProcedure, connect_go.NewUnaryHandler(
+		CalculatorServiceGetProcedure,
+		svc.Get,
+		opts...,
+	))
+	mux.Handle(CalculatorServiceCleanupProcedure, connect_go.NewUnaryHandler(
+		CalculatorServiceCleanupProcedure,
+		svc.Cleanup,
+		opts...,
+	))
 	return "/calculator.v1.CalculatorService/", mux
 }
 
@@ -120,4 +162,12 @@ func (UnimplementedCalculatorServiceHandler) Calculate(context.Context, *connect
 
 func (UnimplementedCalculatorServiceHandler) List(context.Context, *connect_go.Request[v1.ListRequest]) (*connect_go.Response[v1.ListResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("calculator.v1.CalculatorService.List is not implemented"))
+}
+
+func (UnimplementedCalculatorServiceHandler) Get(context.Context, *connect_go.Request[v1.GetRequest]) (*connect_go.Response[v1.GetResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("calculator.v1.CalculatorService.Get is not implemented"))
+}
+
+func (UnimplementedCalculatorServiceHandler) Cleanup(context.Context, *connect_go.Request[v1.CleanupRequest]) (*connect_go.Response[v1.CleanupResponse], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("calculator.v1.CalculatorService.Cleanup is not implemented"))
 }

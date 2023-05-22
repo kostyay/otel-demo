@@ -8,8 +8,13 @@ setup:
 	@go install github.com/bufbuild/connect-go/cmd/protoc-gen-connect-go@latest
 	@echo "Done."
 
-.PHONY: controller
-controller:
+.PHONY: api
+api:
 	@echo "Generating controller..."
 	@buf generate
 	@echo "Done."
+
+
+.PHONY: fmt
+fmt:
+	goimports -w $$(find . -name "*.go" | grep -v -E '(.git|/vendor/|pb.go|protodep|grpcmock_cmds)')

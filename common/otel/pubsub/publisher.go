@@ -1,9 +1,10 @@
 package pubsub
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
 	"fmt"
+
+	"cloud.google.com/go/pubsub"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/propagation"

@@ -2,11 +2,12 @@ package log
 
 import (
 	"context"
+	"log"
+
 	"github.com/kostyay/otel-demo/common/version"
 	"github.com/kostyay/zapdriver"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
-	"log"
 )
 
 const (

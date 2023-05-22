@@ -21,6 +21,176 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type GetRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetRequest) Reset() {
+	*x = GetRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calculator_v1_calculator_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRequest) ProtoMessage() {}
+
+func (x *GetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_calculator_v1_calculator_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRequest.ProtoReflect.Descriptor instead.
+func (*GetRequest) Descriptor() ([]byte, []int) {
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Calculation *Calculation `protobuf:"bytes,1,opt,name=calculation,proto3" json:"calculation,omitempty"`
+}
+
+func (x *GetResponse) Reset() {
+	*x = GetResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calculator_v1_calculator_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetResponse) ProtoMessage() {}
+
+func (x *GetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_calculator_v1_calculator_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetResponse.ProtoReflect.Descriptor instead.
+func (*GetResponse) Descriptor() ([]byte, []int) {
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetResponse) GetCalculation() *Calculation {
+	if x != nil {
+		return x.Calculation
+	}
+	return nil
+}
+
+type CleanupRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CleanupRequest) Reset() {
+	*x = CleanupRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calculator_v1_calculator_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CleanupRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CleanupRequest) ProtoMessage() {}
+
+func (x *CleanupRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_calculator_v1_calculator_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CleanupRequest.ProtoReflect.Descriptor instead.
+func (*CleanupRequest) Descriptor() ([]byte, []int) {
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{2}
+}
+
+type CleanupResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CleanupResponse) Reset() {
+	*x = CleanupResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calculator_v1_calculator_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CleanupResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CleanupResponse) ProtoMessage() {}
+
+func (x *CleanupResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_calculator_v1_calculator_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CleanupResponse.ProtoReflect.Descriptor instead.
+func (*CleanupResponse) Descriptor() ([]byte, []int) {
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{3}
+}
+
 type CalculateRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -33,7 +203,7 @@ type CalculateRequest struct {
 func (x *CalculateRequest) Reset() {
 	*x = CalculateRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_v1_calculator_proto_msgTypes[0]
+		mi := &file_calculator_v1_calculator_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +216,7 @@ func (x *CalculateRequest) String() string {
 func (*CalculateRequest) ProtoMessage() {}
 
 func (x *CalculateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_v1_calculator_proto_msgTypes[0]
+	mi := &file_calculator_v1_calculator_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +229,7 @@ func (x *CalculateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateRequest.ProtoReflect.Descriptor instead.
 func (*CalculateRequest) Descriptor() ([]byte, []int) {
-	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{0}
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CalculateRequest) GetExpression() string {
@@ -87,7 +257,7 @@ type CalculateResponse struct {
 func (x *CalculateResponse) Reset() {
 	*x = CalculateResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_v1_calculator_proto_msgTypes[1]
+		mi := &file_calculator_v1_calculator_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -100,7 +270,7 @@ func (x *CalculateResponse) String() string {
 func (*CalculateResponse) ProtoMessage() {}
 
 func (x *CalculateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_v1_calculator_proto_msgTypes[1]
+	mi := &file_calculator_v1_calculator_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -113,7 +283,7 @@ func (x *CalculateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateResponse.ProtoReflect.Descriptor instead.
 func (*CalculateResponse) Descriptor() ([]byte, []int) {
-	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{1}
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CalculateResponse) GetId() uint32 {
@@ -132,7 +302,7 @@ type ListRequest struct {
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_v1_calculator_proto_msgTypes[2]
+		mi := &file_calculator_v1_calculator_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -145,7 +315,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_v1_calculator_proto_msgTypes[2]
+	mi := &file_calculator_v1_calculator_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -158,7 +328,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{2}
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{6}
 }
 
 type ListResponse struct {
@@ -172,7 +342,7 @@ type ListResponse struct {
 func (x *ListResponse) Reset() {
 	*x = ListResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_v1_calculator_proto_msgTypes[3]
+		mi := &file_calculator_v1_calculator_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -185,7 +355,7 @@ func (x *ListResponse) String() string {
 func (*ListResponse) ProtoMessage() {}
 
 func (x *ListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_v1_calculator_proto_msgTypes[3]
+	mi := &file_calculator_v1_calculator_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -198,7 +368,7 @@ func (x *ListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListResponse.ProtoReflect.Descriptor instead.
 func (*ListResponse) Descriptor() ([]byte, []int) {
-	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{3}
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListResponse) GetCalculations() []*Calculation {
@@ -225,7 +395,7 @@ type Calculation struct {
 func (x *Calculation) Reset() {
 	*x = Calculation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_v1_calculator_proto_msgTypes[4]
+		mi := &file_calculator_v1_calculator_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -238,7 +408,7 @@ func (x *Calculation) String() string {
 func (*Calculation) ProtoMessage() {}
 
 func (x *Calculation) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_v1_calculator_proto_msgTypes[4]
+	mi := &file_calculator_v1_calculator_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -251,7 +421,7 @@ func (x *Calculation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Calculation.ProtoReflect.Descriptor instead.
 func (*Calculation) Descriptor() ([]byte, []int) {
-	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{4}
+	return file_calculator_v1_calculator_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Calculation) GetId() uint32 {
@@ -311,6 +481,15 @@ var file_calculator_v1_calculator_proto_rawDesc = []byte{
 	0x12, 0x0d, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x76, 0x31, 0x1a,
 	0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
 	0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x22, 0x1c, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4b,
+	0x0a, 0x0b, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a,
+	0x0b, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e,
+	0x76, 0x31, 0x2e, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b,
+	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x10, 0x0a, 0x0e, 0x43,
+	0x6c, 0x65, 0x61, 0x6e, 0x75, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x11, 0x0a,
+	0x0f, 0x43, 0x6c, 0x65, 0x61, 0x6e, 0x75, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
 	0x22, 0x48, 0x0a, 0x10, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x65, 0x78, 0x70, 0x72, 0x65, 0x73, 0x73, 0x69,
 	0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x65, 0x78, 0x70, 0x72, 0x65, 0x73,
@@ -342,7 +521,7 @@ var file_calculator_v1_calculator_proto_rawDesc = []byte{
 	0x61, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
 	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
 	0x74, 0x61, 0x6d, 0x70, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x41,
-	0x74, 0x32, 0xa8, 0x01, 0x0a, 0x11, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72,
+	0x74, 0x32, 0xb4, 0x02, 0x0a, 0x11, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72,
 	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x50, 0x0a, 0x09, 0x43, 0x61, 0x6c, 0x63, 0x75,
 	0x6c, 0x61, 0x74, 0x65, 0x12, 0x1f, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f,
 	0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x65, 0x52, 0x65,
@@ -352,12 +531,21 @@ var file_calculator_v1_calculator_proto_rawDesc = []byte{
 	0x74, 0x12, 0x1a, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x76,
 	0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e,
 	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
-	0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x48, 0x5a, 0x46,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6b, 0x6f, 0x73, 0x74, 0x79,
-	0x61, 0x79, 0x2f, 0x6f, 0x74, 0x65, 0x6c, 0x2d, 0x64, 0x65, 0x6d, 0x6f, 0x2f, 0x63, 0x6f, 0x6e,
-	0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x61, 0x6c, 0x63,
-	0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2f, 0x76, 0x31, 0x3b, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
-	0x61, 0x74, 0x6f, 0x72, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x3e, 0x0a, 0x03,
+	0x47, 0x65, 0x74, 0x12, 0x19, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72,
+	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a,
+	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x47,
+	0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4a, 0x0a, 0x07,
+	0x43, 0x6c, 0x65, 0x61, 0x6e, 0x75, 0x70, 0x12, 0x1d, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c,
+	0x61, 0x74, 0x6f, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x6e, 0x75, 0x70, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
+	0x74, 0x6f, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x6e, 0x75, 0x70, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x48, 0x5a, 0x46, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6b, 0x6f, 0x73, 0x74, 0x79, 0x61, 0x79, 0x2f, 0x6f,
+	0x74, 0x65, 0x6c, 0x2d, 0x64, 0x65, 0x6d, 0x6f, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c,
+	0x6c, 0x65, 0x72, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74,
+	0x6f, 0x72, 0x2f, 0x76, 0x31, 0x3b, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72,
+	0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -372,29 +560,38 @@ func file_calculator_v1_calculator_proto_rawDescGZIP() []byte {
 	return file_calculator_v1_calculator_proto_rawDescData
 }
 
-var file_calculator_v1_calculator_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_calculator_v1_calculator_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_calculator_v1_calculator_proto_goTypes = []interface{}{
-	(*CalculateRequest)(nil),      // 0: calculator.v1.CalculateRequest
-	(*CalculateResponse)(nil),     // 1: calculator.v1.CalculateResponse
-	(*ListRequest)(nil),           // 2: calculator.v1.ListRequest
-	(*ListResponse)(nil),          // 3: calculator.v1.ListResponse
-	(*Calculation)(nil),           // 4: calculator.v1.Calculation
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(*GetRequest)(nil),            // 0: calculator.v1.GetRequest
+	(*GetResponse)(nil),           // 1: calculator.v1.GetResponse
+	(*CleanupRequest)(nil),        // 2: calculator.v1.CleanupRequest
+	(*CleanupResponse)(nil),       // 3: calculator.v1.CleanupResponse
+	(*CalculateRequest)(nil),      // 4: calculator.v1.CalculateRequest
+	(*CalculateResponse)(nil),     // 5: calculator.v1.CalculateResponse
+	(*ListRequest)(nil),           // 6: calculator.v1.ListRequest
+	(*ListResponse)(nil),          // 7: calculator.v1.ListResponse
+	(*Calculation)(nil),           // 8: calculator.v1.Calculation
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_calculator_v1_calculator_proto_depIdxs = []int32{
-	4, // 0: calculator.v1.ListResponse.calculations:type_name -> calculator.v1.Calculation
-	5, // 1: calculator.v1.Calculation.created_at:type_name -> google.protobuf.Timestamp
-	5, // 2: calculator.v1.Calculation.updated_at:type_name -> google.protobuf.Timestamp
-	5, // 3: calculator.v1.Calculation.completed_at:type_name -> google.protobuf.Timestamp
-	0, // 4: calculator.v1.CalculatorService.Calculate:input_type -> calculator.v1.CalculateRequest
-	2, // 5: calculator.v1.CalculatorService.List:input_type -> calculator.v1.ListRequest
-	1, // 6: calculator.v1.CalculatorService.Calculate:output_type -> calculator.v1.CalculateResponse
-	3, // 7: calculator.v1.CalculatorService.List:output_type -> calculator.v1.ListResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8, // 0: calculator.v1.GetResponse.calculation:type_name -> calculator.v1.Calculation
+	8, // 1: calculator.v1.ListResponse.calculations:type_name -> calculator.v1.Calculation
+	9, // 2: calculator.v1.Calculation.created_at:type_name -> google.protobuf.Timestamp
+	9, // 3: calculator.v1.Calculation.updated_at:type_name -> google.protobuf.Timestamp
+	9, // 4: calculator.v1.Calculation.completed_at:type_name -> google.protobuf.Timestamp
+	4, // 5: calculator.v1.CalculatorService.Calculate:input_type -> calculator.v1.CalculateRequest
+	6, // 6: calculator.v1.CalculatorService.List:input_type -> calculator.v1.ListRequest
+	0, // 7: calculator.v1.CalculatorService.Get:input_type -> calculator.v1.GetRequest
+	2, // 8: calculator.v1.CalculatorService.Cleanup:input_type -> calculator.v1.CleanupRequest
+	5, // 9: calculator.v1.CalculatorService.Calculate:output_type -> calculator.v1.CalculateResponse
+	7, // 10: calculator.v1.CalculatorService.List:output_type -> calculator.v1.ListResponse
+	1, // 11: calculator.v1.CalculatorService.Get:output_type -> calculator.v1.GetResponse
+	3, // 12: calculator.v1.CalculatorService.Cleanup:output_type -> calculator.v1.CleanupResponse
+	9, // [9:13] is the sub-list for method output_type
+	5, // [5:9] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_calculator_v1_calculator_proto_init() }
@@ -404,7 +601,7 @@ func file_calculator_v1_calculator_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_calculator_v1_calculator_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CalculateRequest); i {
+			switch v := v.(*GetRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -416,7 +613,7 @@ func file_calculator_v1_calculator_proto_init() {
 			}
 		}
 		file_calculator_v1_calculator_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CalculateResponse); i {
+			switch v := v.(*GetResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -428,7 +625,7 @@ func file_calculator_v1_calculator_proto_init() {
 			}
 		}
 		file_calculator_v1_calculator_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListRequest); i {
+			switch v := v.(*CleanupRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -440,7 +637,7 @@ func file_calculator_v1_calculator_proto_init() {
 			}
 		}
 		file_calculator_v1_calculator_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListResponse); i {
+			switch v := v.(*CleanupResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -452,6 +649,54 @@ func file_calculator_v1_calculator_proto_init() {
 			}
 		}
 		file_calculator_v1_calculator_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CalculateRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calculator_v1_calculator_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CalculateResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calculator_v1_calculator_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calculator_v1_calculator_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calculator_v1_calculator_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Calculation); i {
 			case 0:
 				return &v.state
@@ -470,7 +715,7 @@ func file_calculator_v1_calculator_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_calculator_v1_calculator_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

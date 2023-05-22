@@ -7,6 +7,3 @@ require (
 	google.golang.org/protobuf v1.30.0
 )
 
-replace (
-	github.com/kostyay/otel-demo/controller/api => ../../controller/api
-)

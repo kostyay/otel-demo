@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
+
 	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
 	otelgorm "github.com/kostyay/gorm-opentelemetry"
 	"github.com/kostyay/otel-demo/controller/internal/config"

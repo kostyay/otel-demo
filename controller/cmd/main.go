@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/kostyay/otel-demo/common/log"
 	"github.com/kostyay/otel-demo/common/otel"
 	"github.com/kostyay/otel-demo/common/version"
@@ -12,8 +15,6 @@ import (
 	"github.com/kostyay/otel-demo/controller/internal/storage"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-	"net/http"
-	"os"
 )
 
 func run(ctx context.Context, cfg *config.Options) error {

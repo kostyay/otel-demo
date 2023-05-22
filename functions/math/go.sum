@@ -804,6 +804,8 @@ github.com/klauspost/compress v1.15.9/go.mod h1:PhcZ0MbTNciWF3rruxRgKxI5NkcHHrHU
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
 github.com/kostyay/otel-demo/common v0.0.0-20230521194412-67fb46bef23e h1:jD83/xeD8sXSESJ9MrkrDyCxND88w/6lF2JRXIcgF98=
 github.com/kostyay/otel-demo/common v0.0.0-20230521194412-67fb46bef23e/go.mod h1:3Yj1daJ5mTUHZuKneVsTqjcokNUxtaaRL6UuqkN/1/E=
+github.com/kostyay/otel-demo/common v0.0.0-20230521210817-9db6fe02f542 h1:QvUNM7vmAuT3V8FOTjmLFRye8B6VlDLdnwS7mJwgkvs=
+github.com/kostyay/otel-demo/common v0.0.0-20230521210817-9db6fe02f542/go.mod h1:3Yj1daJ5mTUHZuKneVsTqjcokNUxtaaRL6UuqkN/1/E=
 github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089 h1:CRQxtf0IrWOQQSqpdbeTxURMK/60V1rzNx4RLDzAjAU=
 github.com/kostyay/otel-demo/controller/api v0.0.0-20230520200254-81738d8ae089/go.mod h1:b0dVBL14snzahcA4bBxG8qKEBXJK3Vf8JhxU7+Bxp+Q=
 github.com/kostyay/zapdriver v1.3.2-0.20210819111715-cba91ee57ad7 h1:nfBzACWJ6xQ9dGkFN9eTSJ/T2tBECoPOtZQer3uCSg8=

@@ -1,21 +1,24 @@
 package math
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
 	"encoding/json"
 	"fmt"
+
+	"cloud.google.com/go/pubsub"
 	"github.com/kostyay/otel-demo/common/log"
 	otelcommon "github.com/kostyay/otel-demo/common/otel"
 	otelpubsub "github.com/kostyay/otel-demo/common/otel/pubsub"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+
+	"os"
 
 	"github.com/maja42/goval"
 	"go.opentelemetry.io/otel/propagation"
 	semconv "go.opentelemetry.io/otel/semconv/v1.15.0"
 	"go.opentelemetry.io/otel/trace"
-	"os"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
@@ -91,6 +94,7 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	defer func() {
 		if err != nil {
 			span.RecordError(err)
+			span.SetStatus(codes.Error, err.Error())
 		}
 		span.End()
 	}()

@@ -3,6 +3,7 @@ package otel
 import (
 	"context"
 	"fmt"
+
 	texporter "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	"go.opentelemetry.io/contrib/detectors/gcp"
 	"go.opentelemetry.io/otel"

@@ -1,10 +1,11 @@
 package math
 
 import (
-	"cloud.google.com/go/pubsub"
 	"context"
 	"encoding/json"
 	"fmt"
+
+	"cloud.google.com/go/pubsub"
 	"github.com/kostyay/otel-demo/common/log"
 	otelcommon "github.com/kostyay/otel-demo/common/otel"
 	otelpubsub "github.com/kostyay/otel-demo/common/otel/pubsub"
