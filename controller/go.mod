@@ -8,14 +8,17 @@ require (
 	github.com/bufbuild/connect-go v1.7.0
 	github.com/bufbuild/connect-opentelemetry-go v0.2.0
 	github.com/caarlos0/env/v8 v8.0.0
-	github.com/kostyay/gorm-opentelemetry v1.0.1-0.20230519182909-94378efcd81c
+	github.com/google/sqlcommenter/go/core v0.1.2
+	github.com/google/sqlcommenter/go/database/sql v0.1.1
+	github.com/jackc/pgx/v4 v4.18.1
+	github.com/kostyay/gorm-opentelemetry v1.1.1
 	github.com/kostyay/otel-demo/common v0.0.0-20230520202305-79c72bc47ac3
 	github.com/kostyay/otel-demo/controller/api v0.0.0-00010101000000-000000000000
 	go.opentelemetry.io/otel v1.15.1
 	go.opentelemetry.io/otel/trace v1.15.1
 	golang.org/x/net v0.10.0
 	google.golang.org/protobuf v1.30.0
-	gorm.io/driver/postgres v1.5.2
+	gorm.io/driver/postgres v1.4.4
 	gorm.io/gorm v1.25.1
 )
 
@@ -37,9 +40,13 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
 	github.com/googleapis/gax-go/v2 v2.8.0 // indirect
+	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
+	github.com/jackc/pgconn v1.14.0 // indirect
+	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgproto3/v2 v2.3.2 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
-	github.com/jackc/pgx/v5 v5.3.1 // indirect
+	github.com/jackc/pgtype v1.14.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kostyay/zapdriver v1.3.2-0.20210819111715-cba91ee57ad7 // indirect

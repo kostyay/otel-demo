@@ -2,9 +2,19 @@ package storage
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"regexp"
 
-	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
+	"github.com/kostyay/otel-demo/common/log"
+	"gorm.io/gorm/logger"
+
+	"github.com/kostyay/otel-demo/common/version"
+
+	sqlcommentercore "github.com/google/sqlcommenter/go/core"
+	gosql "github.com/google/sqlcommenter/go/database/sql"
+	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/stdlib"
 	otelgorm "github.com/kostyay/gorm-opentelemetry"
 	"github.com/kostyay/otel-demo/controller/internal/config"
 	"github.com/kostyay/otel-demo/controller/internal/domain"
@@ -16,12 +26,60 @@ type storage struct {
 	db *gorm.DB
 }
 
+var timeZoneMatcher = regexp.MustCompile("(time_zone|TimeZone)=(.*?)($|&| )")
+
+const driverName = "pgx"
+
+func dbConnection(cfg *config.Options) (*sql.DB, error) {
+	var config *pgx.ConnConfig
+	var err error
+
+	config, err = pgx.ParseConfig(cfg.DB.DSN())
+	if err != nil {
+		return nil, fmt.Errorf("parse dsn: %w", err)
+	}
+
+	config.PreferSimpleProtocol = true
+
+	result := timeZoneMatcher.FindStringSubmatch(cfg.DB.DSN())
+	if len(result) > 2 {
+		config.RuntimeParams["timezone"] = result[2]
+	}
+
+	connStr := stdlib.RegisterConnConfig(config)
+
+	commenterOptions := sqlcommentercore.CommenterOptions{
+		Tags: sqlcommentercore.StaticTags{
+			Application: version.ServiceName,
+			DriverName:  driverName,
+		},
+		Config: sqlcommentercore.CommenterConfig{
+			EnableTraceparent: true,
+		},
+	}
+
+	return gosql.Open(driverName, connStr, commenterOptions)
+}
+
 func New(cfg *config.Options) (*storage, error) {
-	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable", cfg.DB.InstanceConnectionName, cfg.DB.User, cfg.DB.Name, cfg.DB.Password)
-	db, err := gorm.Open(postgres.New(postgres.Config{
-		DriverName: "cloudsqlpostgres",
-		DSN:        dsn,
-	}))
+	dbConn, err := dbConnection(cfg)
+	if err != nil {
+		return nil, fmt.Errorf("unable to open database: %w", err)
+	}
+
+	log.Info("Connected to database, dsn: " + cfg.DB.DSN())
+
+	pgc := postgres.Config{
+		DriverName:           driverName,
+		PreferSimpleProtocol: true,
+		Conn:                 dbConn,
+	}
+
+	log.Info("cfg", pgc)
+
+	db, err := gorm.Open(postgres.New(pgc), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to open database: %w", err)
 	}
@@ -36,7 +94,7 @@ func New(cfg *config.Options) (*storage, error) {
 	// Migrate the schema
 	err = db.AutoMigrate(&domain.Calculation{})
 	if err != nil {
-		panic(err.Error())
+		log.WithError(err).Error("unable to migrate database")
 	}
 
 	return &storage{db: db}, nil

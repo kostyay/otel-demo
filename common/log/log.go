@@ -83,6 +83,10 @@ func Debug(args ...interface{}) {
 	globalLog.Debug(args...)
 }
 
+func With(args ...interface{}) *Logger {
+	return &Logger{logger: globalLog.logger.With(args...)}
+}
+
 func Info(args ...interface{}) {
 	globalLog.Info(args...)
 }

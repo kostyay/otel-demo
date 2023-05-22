@@ -1,14 +1,21 @@
 package config
 
-import "github.com/caarlos0/env/v8"
+import (
+	"fmt"
+
+	"github.com/caarlos0/env/v8"
+)
+
+type DB struct {
+	User     string `env:"DB_USER" envDefault:"postgres"`
+	Password string `env:"DB_PASS"`
+	Name     string `env:"DB_NAME" envDefault:"postgres"`
+	Host     string `env:"DB_HOST" envDefault:"127.0.0.1"`
+	Port     string `env:"DB_PORT"`
+}
 
 type Options struct {
-	DB struct {
-		User                   string `env:"DB_USER" envDefault:"postgres"`
-		Password               string `env:"DB_PASS"`
-		Name                   string `env:"DB_NAME" envDefault:"postgres"`
-		InstanceConnectionName string `env:"INSTANCE_CONNECTION_NAME"`
-	}
+	DB                     DB
 	MathRequestTopic       string `env:"MATH_REQUEST_TOPIC,required"`
 	MathResultSubscription string `env:"MATH_RESULT_SUBSCRIPTION,required"`
 	GoogleCloudProject     string `env:"GOOGLE_CLOUD_PROJECT,required"`
@@ -21,4 +28,12 @@ func Parse() (*Options, error) {
 		return nil, err
 	}
 	return opts, nil
+}
+
+func (db DB) DSN() string {
+	portQuery := ""
+	if db.Port != "" {
+		portQuery = fmt.Sprintf(" port=%s ", db.Port)
+	}
+	return fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable %s", db.Host, db.User, db.Name, db.Password, portQuery)
 }

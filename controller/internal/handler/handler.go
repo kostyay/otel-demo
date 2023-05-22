@@ -89,5 +89,5 @@ func New(s Storage, m Math) *calculator {
 }
 
 func (c *calculator) Register(mux *http.ServeMux) {
-	mux.Handle(calculatorv1connect.NewCalculatorServiceHandler(c, connect_go.WithInterceptors(otelconnect.NewInterceptor())))
+	mux.Handle(calculatorv1connect.NewCalculatorServiceHandler(c, connect_go.WithInterceptors(otelconnect.NewInterceptor(otelconnect.WithTrustRemote()))))
 }
