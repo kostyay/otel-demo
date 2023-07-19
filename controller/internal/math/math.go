@@ -55,7 +55,7 @@ func New(ctx context.Context, cfg *config.Options, storage Storage) (*handler, e
 	go func() {
 		err := result.responseSub.Receive(ctx, otelpubsub.WrapPubSubHandlerWithTelemetry(otelcommon.Tracer(), cfg.MathResultSubscription, result.handleMathResult))
 		if err != nil {
-			log.WithError(err).Error("unable to receive pubsub messages")
+			log.WithContext(ctx).WithError(err).Error("unable to receive pubsub messages")
 		}
 	}()
 

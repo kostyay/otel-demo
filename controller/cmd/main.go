@@ -46,6 +46,7 @@ func run(ctx context.Context, cfg *config.Options) error {
 
 func main() {
 	ctx := context.Background()
+	log.Info(fmt.Sprintf("Starting server - %s;%s", version.ServiceName, version.Version))
 
 	cfg, err := config.Parse()
 	if err != nil {
@@ -53,7 +54,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Info("Starting server...")
 	tp, err := otel.InitTracing(ctx, otel.Config{
 		ProjectID:      cfg.GoogleCloudProject,
 		ServiceName:    version.ServiceName,

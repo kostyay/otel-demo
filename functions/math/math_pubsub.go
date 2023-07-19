@@ -35,7 +35,7 @@ var googleCloudProject = os.Getenv("GOOGLE_CLOUD_PROJECT")
 func init() {
 	_, err := otelcommon.InitTracing(context.Background(), otelcommon.Config{
 		ProjectID:      googleCloudProject,
-		ServiceName:    "math",
+		ServiceName:    "math-cloud-function",
 		ServiceVersion: "0.0.1",
 	})
 	if err != nil {
@@ -91,13 +91,14 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	}
 
 	ctx, span := spanFromPubsubMessage(ctx, otelcommon.Tracer(), "math-topic", msg.Message)
-	defer func() {
+	defer func(err1 *error) {
 		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, err.Error())
+			log.WithError(*err1).Error("Failed to process message")
+			span.RecordError(*err1)
+			span.SetStatus(codes.Error, (*err1).Error())
 		}
 		span.End()
-	}()
+	}(&err)
 
 	logger := log.WithContext(ctx)
 

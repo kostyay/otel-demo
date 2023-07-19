@@ -2,6 +2,11 @@ package handler
 
 import (
 	context "context"
+	"fmt"
+	"github.com/kostyay/otel-demo/common/log"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 	"net/http"
 
 	connect_go "github.com/bufbuild/connect-go"
@@ -29,10 +34,23 @@ type calculator struct {
 }
 
 func (c *calculator) Calculate(ctx context.Context, req *connect_go.Request[pb.CalculateRequest]) (*connect_go.Response[pb.CalculateResponse], error) {
+	span := trace.SpanFromContext(ctx)
+	span.SetAttributes(attribute.String("owner", req.Msg.GetOwner()))
+
+	log.WithContext(ctx).Info("Got calculation request!")
+	if req.Msg.GetOwner() == "error" {
+		span.RecordError(fmt.Errorf("owner is invalid"))
+		span.SetStatus(codes.Error, "owner is invalid")
+		return nil, connect_go.NewError(connect_go.CodeInvalidArgument, fmt.Errorf("owner is invalid"))
+	}
+
+	span.AddEvent("Creating calculation in database")
 	res, err := c.db.CreateCalculation(ctx, req.Msg.GetOwner(), req.Msg.GetExpression())
 	if err != nil {
 		return nil, err
 	}
+
+	span.AddEvent(fmt.Sprintf("Dispatching calculation %d reqeust to math service", res.ID))
 
 	err = c.math.Calculate(ctx, &pb.Calculation{
 		Id:         uint32(res.ID),
@@ -50,8 +68,8 @@ func (c *calculator) Calculate(ctx context.Context, req *connect_go.Request[pb.C
 	return response, nil
 }
 
-func (c *calculator) List(context.Context, *connect_go.Request[pb.ListRequest]) (*connect_go.Response[pb.ListResponse], error) {
-	results, err := c.db.GetCalculations(context.Background())
+func (c *calculator) List(ctx context.Context, req *connect_go.Request[pb.ListRequest]) (*connect_go.Response[pb.ListResponse], error) {
+	results, err := c.db.GetCalculations(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +100,7 @@ func (c *calculator) Get(ctx context.Context, req *connect_go.Request[pb.GetRequ
 }
 
 func (c *calculator) Cleanup(ctx context.Context, req *connect_go.Request[pb.CleanupRequest]) (*connect_go.Response[pb.CleanupResponse], error) {
-	return nil, nil
+	return connect_go.NewResponse(&pb.CleanupResponse{}), nil
 }
 func New(s Storage, m Math) *calculator {
 	return &calculator{db: s, math: m}

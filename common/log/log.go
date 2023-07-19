@@ -3,6 +3,7 @@ package log
 import (
 	"context"
 	"log"
+	"os"
 
 	"github.com/kostyay/otel-demo/common/version"
 	"github.com/kostyay/zapdriver"
@@ -16,6 +17,8 @@ const (
 	traceSampledKey = "logging.googleapis.com/trace_sampled"
 	errorKey        = "err"
 )
+
+var googleProjectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
 
 type Logger struct {
 	logger *zap.SugaredLogger
@@ -46,9 +49,13 @@ func (l *Logger) WithContext(ctx context.Context) *Logger {
 
 	return &Logger{
 		logger: l.logger.With(
-			traceKey, span.TraceID().String(),
+			traceKey, traceID(span.TraceID().String()),
 			spanKey, span.SpanID().String(),
 			traceSampledKey, span.IsSampled())}
+}
+
+func traceID(id string) string {
+	return "projects/" + googleProjectID + "/traces/" + id
 }
 
 func (l *Logger) Debug(args ...interface{}) {
