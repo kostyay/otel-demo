@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"time"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/kostyay/otel-demo/common/log"
@@ -35,7 +37,7 @@ var googleCloudProject = os.Getenv("GOOGLE_CLOUD_PROJECT")
 func init() {
 	_, err := otelcommon.InitTracing(context.Background(), otelcommon.Config{
 		ProjectID:      googleCloudProject,
-		ServiceName:    "math",
+		ServiceName:    "math-cloud-function",
 		ServiceVersion: "0.0.1",
 	})
 	if err != nil {
@@ -82,6 +84,15 @@ func spanFromPubsubMessage(ctx context.Context, tracer trace.Tracer, topicID str
 	return tracer.Start(ctx, fmt.Sprintf("%s process", topicID), opts...)
 }
 
+func lazinessFactor(ctx context.Context) {
+	ctx, span := otel.GetTracerProvider().Tracer("math").Start(ctx, "lazinessFactor")
+	defer span.End()
+
+	delay := rand.Intn(5) + 2
+	span.SetAttributes(attribute.Int("laziness", delay))
+	time.Sleep(time.Duration(delay) * time.Second)
+}
+
 // helloPubSub consumes a CloudEvent message and extracts the Pub/Sub message.
 func calculateExpression(ctx context.Context, e event.Event) error {
 	var err error
@@ -91,13 +102,14 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	}
 
 	ctx, span := spanFromPubsubMessage(ctx, otelcommon.Tracer(), "math-topic", msg.Message)
-	defer func() {
+	defer func(err1 *error) {
 		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, err.Error())
+			log.WithError(*err1).Error("Failed to process message")
+			span.RecordError(*err1)
+			span.SetStatus(codes.Error, (*err1).Error())
 		}
 		span.End()
-	}()
+	}(&err)
 
 	logger := log.WithContext(ctx)
 
@@ -109,6 +121,10 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	}
 
 	span.SetAttributes(attribute.String("owner", calculation.GetOwner()), attribute.String("expression", calculation.GetExpression()))
+
+	if calculation.GetOwner() == "slow" {
+		lazinessFactor(ctx)
+	}
 
 	logger.Infof("Calculation: Owner: %s; Expression: %s; Attributes: %v", calculation.GetOwner(), calculation.GetExpression(), msg.Message.Attributes)
 

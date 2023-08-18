@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
+	"github.com/kostyay/otel-demo/common/log"
 
 	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
 	otelgorm "github.com/kostyay/gorm-opentelemetry"
@@ -18,6 +19,7 @@ type storage struct {
 
 func New(cfg *config.Options) (*storage, error) {
 	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable", cfg.DB.InstanceConnectionName, cfg.DB.User, cfg.DB.Name, cfg.DB.Password)
+	log.Infof("Connecting to database, dsn=%s", dsn)
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DriverName: "cloudsqlpostgres",
 		DSN:        dsn,
@@ -33,6 +35,12 @@ func New(cfg *config.Options) (*storage, error) {
 		return nil, fmt.Errorf("unable to use otelgorm plugin: %w", err)
 	}
 
+	//sqlcPlugin := NewSQLCommenterPlugin()
+	//err = db.Use(sqlcPlugin)
+	//if err != nil {
+	//	return nil, fmt.Errorf("unable to use sqlc plugin: %w", err)
+	//}
+
 	// Migrate the schema
 	err = db.AutoMigrate(&domain.Calculation{})
 	if err != nil {
@@ -47,7 +55,7 @@ func (s *storage) CreateCalculation(ctx context.Context, owner, expression strin
 		Owner:      owner,
 		Expression: expression,
 	}
-	err := s.db.WithContext(ctx).Create(calculation).Error
+	err := s.db.WithContext(ctx).Debug().Create(calculation).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to create calculation: %w", err)
 	}
@@ -65,7 +73,7 @@ func (s *storage) GetCalculation(ctx context.Context, id uint) (*domain.Calculat
 
 func (s *storage) GetCalculations(ctx context.Context) ([]*domain.Calculation, error) {
 	var calculations []*domain.Calculation
-	err := s.db.WithContext(ctx).Find(&calculations).Error
+	err := s.db.WithContext(ctx).Debug().Raw("SELECT * FROM calculations ORDER BY created_at DESC " + sqlComments(ctx)).Scan(&calculations).Error
 	if err != nil {
 		return nil, fmt.Errorf("unable to find calculations: %w", err)
 	}

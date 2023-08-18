@@ -1,7 +1,7 @@
 REGION := us-central1
 TOPIC := math-topic
 ENTRY_POINT := calculateExpression
-GOOGLE_CLOUD_PROJECT := otel-demo-387216
+GOOGLE_CLOUD_PROJECT := otel-demo-2
 
 .PHONY: deploy
 deploy:

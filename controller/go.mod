@@ -6,13 +6,13 @@ require (
 	cloud.google.com/go/pubsub v1.30.1
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.33.7
 	github.com/bufbuild/connect-go v1.7.0
-	github.com/bufbuild/connect-opentelemetry-go v0.2.0
+	github.com/bufbuild/connect-opentelemetry-go v0.3.0
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/kostyay/gorm-opentelemetry v1.0.1-0.20230519182909-94378efcd81c
 	github.com/kostyay/otel-demo/common v0.0.0-20230520202305-79c72bc47ac3
 	github.com/kostyay/otel-demo/controller/api v0.0.0-00010101000000-000000000000
-	go.opentelemetry.io/otel v1.15.1
-	go.opentelemetry.io/otel/trace v1.15.1
+	go.opentelemetry.io/otel v1.16.0
+	go.opentelemetry.io/otel/trace v1.16.0
 	golang.org/x/net v0.10.0
 	google.golang.org/protobuf v1.30.0
 	gorm.io/driver/postgres v1.5.2
@@ -47,8 +47,8 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib v1.16.1 // indirect
 	go.opentelemetry.io/contrib/detectors/gcp v1.16.1 // indirect
-	go.opentelemetry.io/otel/metric v0.38.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.15.1 // indirect
+	go.opentelemetry.io/otel/metric v1.16.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.16.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
