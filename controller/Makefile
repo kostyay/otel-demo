@@ -1,4 +1,4 @@
-REPO_BASE := us-docker.pkg.dev/stackpulse/r/socrates-agent
+REPO_BASE := us-central1-docker.pkg.dev/otel-demo-2/otel-demo
 PROGRAM := controller
 COMMIT            ?= $(shell git rev-parse HEAD)
 

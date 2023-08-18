@@ -94,6 +94,10 @@ func Info(args ...interface{}) {
 	globalLog.Info(args...)
 }
 
+func Infof(format string, args ...interface{}) {
+	globalLog.logger.Infof(format, args...)
+}
+
 func Fatalf(format string, args ...interface{}) {
 	globalLog.logger.Fatalf(format, args...)
 }

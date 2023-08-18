@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"time"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/kostyay/otel-demo/common/log"
@@ -82,6 +84,15 @@ func spanFromPubsubMessage(ctx context.Context, tracer trace.Tracer, topicID str
 	return tracer.Start(ctx, fmt.Sprintf("%s process", topicID), opts...)
 }
 
+func lazinessFactor(ctx context.Context) {
+	ctx, span := otel.GetTracerProvider().Tracer("math").Start(ctx, "lazinessFactor")
+	defer span.End()
+
+	delay := rand.Intn(5) + 2
+	span.SetAttributes(attribute.Int("laziness", delay))
+	time.Sleep(time.Duration(delay) * time.Second)
+}
+
 // helloPubSub consumes a CloudEvent message and extracts the Pub/Sub message.
 func calculateExpression(ctx context.Context, e event.Event) error {
 	var err error
@@ -110,6 +121,10 @@ func calculateExpression(ctx context.Context, e event.Event) error {
 	}
 
 	span.SetAttributes(attribute.String("owner", calculation.GetOwner()), attribute.String("expression", calculation.GetExpression()))
+
+	if calculation.GetOwner() == "slow" {
+		lazinessFactor(ctx)
+	}
 
 	logger.Infof("Calculation: Owner: %s; Expression: %s; Attributes: %v", calculation.GetOwner(), calculation.GetExpression(), msg.Message.Attributes)
 

@@ -18,3 +18,10 @@ api:
 .PHONY: fmt
 fmt:
 	goimports -w $$(find . -name "*.go" | grep -v -E '(.git|/vendor/|pb.go|protodep|grpcmock_cmds)')
+
+.PHONY: deploy-all
+deploy-all:
+	@echo "Deploying all functions..."
+	cd functions/math && make deploy
+	@echo "Deploying controller"
+	cd controller && make deploy

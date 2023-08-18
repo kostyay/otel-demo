@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
+	"github.com/kostyay/otel-demo/common/log"
 
 	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
 	otelgorm "github.com/kostyay/gorm-opentelemetry"
@@ -18,6 +19,7 @@ type storage struct {
 
 func New(cfg *config.Options) (*storage, error) {
 	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s sslmode=disable", cfg.DB.InstanceConnectionName, cfg.DB.User, cfg.DB.Name, cfg.DB.Password)
+	log.Infof("Connecting to database, dsn=%s", dsn)
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DriverName: "cloudsqlpostgres",
 		DSN:        dsn,

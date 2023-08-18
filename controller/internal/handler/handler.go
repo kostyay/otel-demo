@@ -34,9 +34,12 @@ type calculator struct {
 }
 
 func (c *calculator) Calculate(ctx context.Context, req *connect_go.Request[pb.CalculateRequest]) (*connect_go.Response[pb.CalculateResponse], error) {
+	// use existing span attached to the context by the middleware
 	span := trace.SpanFromContext(ctx)
+	// add some attributes to the span
 	span.SetAttributes(attribute.String("owner", req.Msg.GetOwner()))
 
+	// log with traceid
 	log.WithContext(ctx).Info("Got calculation request!")
 	if req.Msg.GetOwner() == "error" {
 		span.RecordError(fmt.Errorf("owner is invalid"))
@@ -44,11 +47,14 @@ func (c *calculator) Calculate(ctx context.Context, req *connect_go.Request[pb.C
 		return nil, connect_go.NewError(connect_go.CodeInvalidArgument, fmt.Errorf("owner is invalid"))
 	}
 
+	// some span events
 	span.AddEvent("Creating calculation in database")
 	res, err := c.db.CreateCalculation(ctx, req.Msg.GetOwner(), req.Msg.GetExpression())
 	if err != nil {
 		return nil, err
 	}
+
+	span.SetAttributes(attribute.Int("id", int(res.ID)))
 
 	span.AddEvent(fmt.Sprintf("Dispatching calculation %d reqeust to math service", res.ID))
 
