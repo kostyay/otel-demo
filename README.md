@@ -1,3 +1,6 @@
+![Otel Demo](logo/otel-demo.png?raw=true "Otel Demo")
+
+
 # otel-demo
 
 This is a demo application that implements an asynchronous calculator. It consts of a "controller" microservice that
