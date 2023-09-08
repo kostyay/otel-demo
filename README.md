@@ -14,6 +14,8 @@ to seamlessly propagate context across services and how to use the OpenTelemetry
 It implements a middleware for google Pubsub that transfers the trace context in the message metadata.
 
 ## Slides
+Talk: https://www.youtube.com/watch?v=5rjTdA6BM1E
+
 You can find the slides for this talk [here](https://docs.google.com/presentation/d/1r1AoSwEDILcf0HmY7jRP9C0ghW33Z7Vs/edit?usp=sharing&ouid=108894967989365154526&rtpof=true&sd=true)
 
 ## Architecture
